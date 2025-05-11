@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-deploy
+  revisionHistoryLimit: 2
+  progressDeadlineSeconds: 300
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: app-deploy
+    spec:
+      containers:
+      - name: app-deploy
+        image: taharamakda/chatapp:latest
+        ports:
+        - containerPort: 9000
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 0.4
