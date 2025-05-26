@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: app-deploy
-        image: taharamakda/chatapp:5
+        image: taharamakda/chatapp:6
         ports:
         - containerPort: 9000
         resources:
