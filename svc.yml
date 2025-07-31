@@ -14,19 +14,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-svc
-spec:
-  selector:
-    app: order-deploy
-  ports:
-  - port: 3002
-    targetPort: 3002
-  type: ClusterIP
----
-
-apiVersion: v1
-kind: Service
-metadata:
   name: product-svc
 spec:
   selector:
