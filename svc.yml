@@ -2,11 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auth-svc
+  labels:
+    prometheus: enabled
 spec:
   selector:
     app: auth-deploy
   ports:
-  - port: 3000
+  - name: http
+    port: 3000
     targetPort: 3000
   type: ClusterIP
 ---
@@ -15,12 +18,31 @@ apiVersion: v1
 kind: Service
 metadata:
   name: product-svc
+  labels:
+    prometheus: enabled
 spec:
   selector:
     app: product-deploy
   ports:
-  - port: 3001
+  - name: http
+    port: 3001
     targetPort: 3001
+  type: ClusterIP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-svc
+  labels:
+    prometheus: enabled
+spec:
+  selector:
+    app: order-deploy
+  ports:
+  - name: http
+    port: 3002
+    targetPort: 3002
   type: ClusterIP
 ---
 
@@ -32,8 +54,12 @@ spec:
   selector:
     app: mongo-service
   ports:
-  - port: 27017
+  - name: app
+     port: 27017
     targetPort: 27017
+  - name: http
+    port : 9216
+    targetPort: 9216
   type: ClusterIP
 ---
 
@@ -51,4 +77,7 @@ spec:
   - name: management
     port: 15672
     targetPort: 15672
+  - name: http
+    port: 9419
+    targetPort: 9419
   type: NodePort
