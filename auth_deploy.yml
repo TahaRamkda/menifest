@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: auth-deploy
-        image: taharamakda/auth:v1
+        image: taharamakda/auth:v3
         ports:
         - containerPort: 3000
         env:
