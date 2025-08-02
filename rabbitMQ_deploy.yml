@@ -26,6 +26,19 @@ spec:
         volumeMounts:
         - name: rabbitmq-data
           mountPath: /var/lib/rabbitmq
+      - name: rabbitmq-exporter
+        image: kbudde/rabbitmq-exporter:latest
+        ports:
+        - containerPort: 9419
+        env:
+        - name: RABBITMQ_URL
+          value: "http://localhost:15672"
+        - name: RABBITMQ_USER
+          value: "guest"
+        - name: RABBITMQ_PASSWORD
+          value: "guest"
+        - name: RABBITMQ_EXPORTER_LOG_LEVEL
+          value: "info"
       volumes:
       - name: rabbitmq-data
         hostPath:

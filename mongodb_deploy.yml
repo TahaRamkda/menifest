@@ -20,6 +20,12 @@ spec:
         volumeMounts:
         - name: mongo-data
           mountPath: /data/db
+      - name: mongodb-exporter
+        image: percona/mongodb_exporter:0.44.0
+        args:
+        - "--mongodb.uri=mongodb://localhost:27017"
+        ports:
+        - containerPort: 9216
       volumes:
       - name: mongo-data
         hostPath:
