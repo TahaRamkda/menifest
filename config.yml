@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: svc-config
 data:
-  MONGODB_AUTH_URI: "mongodb://mongo-service.default.svc.cluster.local/auth"
-  MONGODB_PRODUCT_URI: "mongodb://mongo-service.default.svc.cluster.local/product"
-  MONGODB_ORDER_URI: "mongodb://mongo-service.default.svc.cluster.local/order"
+  MONGODB_AUTH_URI: "mongodb://mongo-service.default.svc.cluster.local:27017/auth"
+  MONGODB_PRODUCT_URI: "mongodb://mongo-service.default.svc.cluster.local:27017/product"
+  MONGODB_ORDER_URI: "mongodb://mongo-service.default.svc.cluster.local:27017/order"
   RABBITMQ_URI: "amqp://rabbitmq.default.svc.cluster.local"

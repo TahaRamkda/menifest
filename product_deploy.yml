@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: product-deploy
-        image: taharamakda/products:v1
+        image: taharamakda/products:v2
         ports:
         - containerPort: 3001
         env:

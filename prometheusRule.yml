@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: microservice-alert-rules
+  namespace: monitoring
+  labels:
+    role: alert-rules
+    prometheus: kube-prometheus
+    app: monitoring
+spec:
+  groups:
+  - name: auth-service.rules
+    rules:
+    - alert: AuthServiceHighLatency
+      expr: histogram_quantile(0.95, rate(http_request_duration_seconds{job="auth-svc"}[2m])) > 1
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High latency in Auth Service"
+        description: "95th percentile latency is > 1s."
+
+    - alert: AuthFailedLoginSpike
+      expr: rate(auth_failed_login_total{job="auth-svc"}[5m]) > 0.1667
+      for: 5m
+      labels:
+        severity: medium
+      annotations:
+        summary: "Spike in failed logins"
+        description: "More than 10 failed logins per minute."
+
+    - alert: AuthTrafficSpike
+      expr: rate(http_requests_total{job="auth-svc"}[15s]) > 100
+      for: 0s
+      labels:
+        severity: warning
+      annotations:
+        summary: "Traffic spike in Auth Service"
+        description: "Request rate exceeded 100 req/sec over 15 seconds."

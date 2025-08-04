@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: order-deploy
-        image: taharamakda/orders:v1
+        image: taharamakda/orders:v3
         ports:
         - containerPort: 3002
         env:
