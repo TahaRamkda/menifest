@@ -37,3 +37,63 @@ spec:
       annotations:
         summary: "Traffic spike in Auth Service"
         description: "Request rate exceeded 100 req/sec over 15 seconds."
+
+  - name: order-service.rules
+    rules:
+    - alert: OrderMessageFailures
+      expr: rate(order_messages_failed_total{job="orders-svc"}[5m]) > 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Messages failing in Order Service"
+        description: "Some messages failed processing."
+
+    - alert: OrdersLatencyHigh
+      expr: histogram_quantile(0.95, rate(order_message_processing_duration_seconds{job="orders-svc"}[2m])) > 1
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High message processing latency"
+        description: "Order processing is slower than 1s."
+
+  - name: product-service.rules
+    rules:
+    - alert: ProductServiceDown
+      expr: up{job="product-svc"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Product Service is down"
+        description: "No instances of product-svc are up."
+
+    - alert: ProductHttpDrop
+      expr: rate(http_requests_total{job="product-svc"}[5m]) < 1
+      for: 3m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Traffic drop on Product Service"
+        description: "No HTTP traffic on product-svc."
+
+  - name: rabbitmq-service.rules
+    rules:
+    - alert: RabbitMQHighQueueBacklog
+      expr: rabbitmq_queue_messages_ready{queue!="",instance!=""} > 20
+      for: 8s
+      labels:
+        severity: warning
+      annotations:
+        summary: "High message backlog in RabbitMQ queue"
+        description: "Queue '{{ $labels.queue }}' on instance '{{ $labels.instance }}' has more than 20 messages ready for delivery for over 30 seconds."
+
+    - alert: RabbitMQLowConsumerCount
+      expr: rabbitmq_queue_consumers{queue!="",instance!=""} < 1
+      for: 30s
+      labels:
+        severity: critical
+      annotations:
+        summary: "No consumers on RabbitMQ queue"
+        description: "Queue '{{ $labels.queue }}' on instance '{{ $labels.instance }}' has no consumers attached."

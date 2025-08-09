@@ -32,7 +32,7 @@ spec:
   endpoints:
   - port: http
     path: /metrics
-    interval: 15s
+    interval: 5s
 ---
 
 apiVersion: monitoring.coreos.com/v1
@@ -70,4 +70,4 @@ spec:
   endpoints:
   - port: http
     path: /metrics
-    interval: 15s
+    interval: 5s

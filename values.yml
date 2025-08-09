@@ -1,0 +1,7 @@
+prometheus:
+  prometheusSpec:
+    alertingEndpoints:
+    - name: alertmanager-operated
+      namespace: monitoring
+      port: web
+      scheme: http
